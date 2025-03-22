@@ -20,10 +20,7 @@ services:
       - .:/app
     command: >
       sh -c "python /app/manage.py collectstatic --noinput &&
-      python /app/manage.py makemigrations &&
-      python /app/manage.py wait_for_db && 
-      python /app/manage.py migrate && 
-      python /app/manage.py delete_silk &&
+      python /app/manage.py makemigrations && python /app/manage.py migrate && 
       python /app/manage.py init_admin &&
       gunicorn shakcommerce.wsgi --workers 3 --threads 8 --timeout 240 --bind 0.0.0.0:8000  --reload  --chdir /app/"
     restart: always

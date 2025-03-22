@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PIP_ROOT_USER_ACTION=ignore
 
 # Set work directory
 WORKDIR /app
@@ -22,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pip install -r requirements.txt && \
     # Clean up cache and unnecessary build dependencies
     apt-get purge -y --auto-remove gcc python3-dev build-essential && \
-    apt-get clean && \
+    apt-get clean
 
 # Copy project files to the container
 COPY . /app
