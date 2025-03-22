@@ -6,7 +6,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             created_user, created = get_user_model().objects.get_or_create(
-                email="ayoussefaymanshaker@me.com",
+                email="youssefaymanshaker@me.com",
                 username="joe",
                 first_name="Youssef",
                 last_name="Shaker",
