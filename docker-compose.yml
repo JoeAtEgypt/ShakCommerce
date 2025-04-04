@@ -1,7 +1,7 @@
 services:
 
   db:
-    container_name: shakcommerce_postgres
+    container_name: shakcommerce-postgres
     image: postgres:16-alpine3.20
     env_file:
       - .env
@@ -11,22 +11,57 @@ services:
       - ./db_backup:/var/lib/postgresql/data
     restart: always
 
+  redis:
+    container_name: shakcommerce-redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: always
+
   django:
-    container_name: shakcommerce_django
+    container_name: shakcommerce
     tty: true
     stdin_open: true
     build: .
     volumes:
       - .:/app
     command: >
-      sh -c "python /app/manage.py collectstatic --noinput &&
-      python /app/manage.py makemigrations && python /app/manage.py migrate && 
+      sh -c "python /app/manage.py collectstatic --no-input &&
+      python /app/manage.py makemigrations &&  python /app/manage.py migrate && 
       python /app/manage.py init_admin &&
       gunicorn shakcommerce.wsgi --workers 3 --threads 8 --timeout 240 --bind 0.0.0.0:8000  --reload  --chdir /app/"
     restart: always
-    ports:
-      - "8000:8000"
+
     env_file:
       - .env
     depends_on:
       - db
+      - redis
+
+  celery:
+    container_name: shakcommerce-celery
+    volumes:
+      - .:/app
+    build:
+      context: .
+    # Use command to start the Celery Worker in this container
+    # "-l" sets the login level to "INFO", which is the default log levels
+    # which there are generally 3 different log levels debug info
+    # 1. Warnings. 2. Error. 3. Critical Errors or failures.
+    command: celery -A shakcommerce worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  celery-beat:
+    container_name: shakcommerce-celery-beat
+    volumes:
+      - .:/app
+    build:
+      context: .
+    command: celery -A shakcommerce beat -l info
+    env_file:
+      - .env
+    depends_on:
+      - redis

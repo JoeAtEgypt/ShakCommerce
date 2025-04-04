@@ -6,3 +6,4 @@ from .templates import *
 from .middlewares import *
 from .rest_framework import *
 from .swagger import *
+from .celery import *
