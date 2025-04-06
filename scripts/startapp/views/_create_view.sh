@@ -5,8 +5,6 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from $app_name.models import $app_name_class
 from $app_name.serializers import ${app_name_class}Serializer
-# from django_filters import rest_framework as filters
-# from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView
 
 class ${app_name_class}API(APIView):
     # permission_classes = []

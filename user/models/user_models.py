@@ -11,21 +11,19 @@ class User(AbstractBaseUser, SlugModelMixin, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
 
-    username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
-    phone_number = PhoneNumberField(unique=True, blank=True)
+    phone_number = PhoneNumberField(unique=True)
 
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
 
-    slug_attr_name = "username"
+    slug_attr_name = "first_name"
 
-    USERNAME_FIELD = "username"
+    USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
 
     objects = UserManager()

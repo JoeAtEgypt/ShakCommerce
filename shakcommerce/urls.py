@@ -4,7 +4,9 @@ from django.urls import path, include
 
 from shakcommerce import settings
 
-api_patterns = []
+api_patterns = [
+    path("user/", include("user.urls.user_urls")),
+]
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(api_patterns)),

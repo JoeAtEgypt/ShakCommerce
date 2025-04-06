@@ -17,6 +17,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 THIRD_PARTY_APPS = [
     "corsheaders",
     "rest_framework",
+    "rest_framework_simplejwt",
     "django_extensions",
 ]
 

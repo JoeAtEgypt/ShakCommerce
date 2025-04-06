@@ -11,7 +11,7 @@ def async_init_admin():
     try:
         created_user, created = get_user_model().objects.get_or_create(
             email="youssefaymanshaker@me.com",
-            username="joe",
+            phone_number="+201010101010",
             first_name="Youssef",
             last_name="Shaker",
             is_staff=True,
@@ -27,6 +27,6 @@ def async_init_admin():
         raise CommandError(e)
 
 
-@shared_task(name="test_celery_beat")
-def test_celery_beat():
-    print("test_celery_beat")
+# @shared_task(name="test_celery_beat")
+# def test_celery_beat():
+#     print("test_celery_beat")
