@@ -176,4 +176,8 @@ cython_debug/
 db_backup
 static
 .idea
+.idea/*
 migrations
+*/migrations
+vcs.xml
+
