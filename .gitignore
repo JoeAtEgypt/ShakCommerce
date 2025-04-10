@@ -177,6 +177,8 @@ db_backup
 static
 .idea
 .idea/*
+.idea/*.iml
+.idea/*.xml
 migrations
 */migrations
 vcs.xml
