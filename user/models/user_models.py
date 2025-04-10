@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin, AbstractUser
+from django.contrib.auth.models import PermissionsMixin
+from django.utils.text import slugify
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -7,7 +8,7 @@ from common.mixins.slug_mixin import SlugModelMixin
 from user.models.user_manager import UserManager
 
 
-class User(AbstractBaseUser, SlugModelMixin, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
 
@@ -21,8 +22,6 @@ class User(AbstractBaseUser, SlugModelMixin, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
 
-    slug_attr_name = "first_name"
-
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
 
@@ -34,6 +33,3 @@ class User(AbstractBaseUser, SlugModelMixin, PermissionsMixin):
 
     def __str__(self):
         return self.get_full_name
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
